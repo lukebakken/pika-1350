@@ -40,7 +40,7 @@ message = "hello world"
 channel.basic_publish(
     exchange="master_exchange",
     # unreachable route
-    routing_key="xxxxxx",
+    routing_key="backup_queue",
     body=message.encode(),
     properties=pika.BasicProperties(
         delivery_mode=DeliveryMode.Persistent,
