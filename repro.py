@@ -1,4 +1,6 @@
 import pika
+from pika.exchange_type import ExchangeType
+from pika.delivery_mode import DeliveryMode
 
 
 auth = pika.PlainCredentials("guest", "guest")
@@ -11,7 +13,7 @@ channel = conn.channel()
 channel.confirm_delivery()
 channel.exchange_declare(
     exchange="backup_exchange",
-    exchange_type="direct",
+    exchange_type=ExchangeType.direct,
     durable=True,
 )
 channel.queue_declare(
@@ -23,7 +25,7 @@ channel.queue_bind(
 )
 channel.exchange_declare(
     exchange="master_exchange",
-    exchange_type="direct",
+    exchange_type=ExchangeType.direct,
     durable=True,
     arguments={"alternate-exchange": "backup_exchange"},
 )
@@ -41,7 +43,7 @@ channel.basic_publish(
     routing_key="xxxxxx",
     body=message.encode(),
     properties=pika.BasicProperties(
-        delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE,
+        delivery_mode=DeliveryMode.Persistent,
     ),
 )
 conn.close()
