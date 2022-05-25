@@ -1,10 +1,10 @@
 import pika
 
 
-auth = pika.PlainCredentials("admin", "admin")
+auth = pika.PlainCredentials("guest", "guest")
 conn = pika.BlockingConnection(
     pika.ConnectionParameters(
-        host="127.0.0.1", port=5672, virtual_host="/", credentials=auth
+        host="shostakovich", port=5672, virtual_host="/", credentials=auth
     )
 )
 channel = conn.channel()
