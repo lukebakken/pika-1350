@@ -13,7 +13,7 @@ channel = conn.channel()
 channel.confirm_delivery()
 channel.exchange_declare(
     exchange="backup_exchange",
-    exchange_type=ExchangeType.direct,
+    exchange_type=ExchangeType.fanout,
     durable=True,
 )
 channel.queue_declare(
@@ -21,7 +21,7 @@ channel.queue_declare(
     durable=True,
 )
 channel.queue_bind(
-    queue="backup_queue", exchange="backup_exchange", routing_key="backup_queue"
+    queue="backup_queue", exchange="backup_exchange", routing_key="ignored-by-fanout"
 )
 channel.exchange_declare(
     exchange="master_exchange",
